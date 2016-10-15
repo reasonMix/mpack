@@ -1,9 +1,9 @@
 package = "mpack"
-version = "0.1.1-1"
+version = "0.8.3-1"
 
 source = {
   url = "git://github.com/reasonMix/mpack.git",
-  tag = "v0.1.1"
+  tag = "v0.8.3"
 }
 description={
    summary = 'a star algorithm',
