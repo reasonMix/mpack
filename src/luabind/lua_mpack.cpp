@@ -1,6 +1,5 @@
 #include "lua_mpack.hpp"
 #include "mpack/mpack.h"
-
 static int test(lua_State* L)
 {
     size_t sz;
@@ -25,9 +24,9 @@ static void toArray(lua_State *L, int idx, int arg,mpack_writer_t* writer)
 {
     size_t len = lua_objlen(L, idx);
     //jobjectArray array = writeArray(len);
-    
+
     mpack_start_array(writer, len);
-    
+
     for (size_t i = 1; i <= len; ++i) {
         lua_rawgeti(L, idx, i);
         toObject(L, -1, arg,writer);
@@ -58,9 +57,9 @@ static void toMap(lua_State *L, int idx, int arg,mpack_writer_t* writer)
     //jobject map;
     //jmethodID put;
     //std::tie(map, put) = writeHashmap();
-    
+
     mpack_start_map(writer, getLuaTableCount(L,idx));
-    
+
     lua_pushvalue(L, idx); // [table]
     lua_pushnil(L); // [table, nil]
     while (lua_next(L, -2))
@@ -68,14 +67,14 @@ static void toMap(lua_State *L, int idx, int arg,mpack_writer_t* writer)
         // [table, key, value]
         lua_pushvalue(L, -2);
         // [table, key, value, key]
-        
+
         toObject(L, -1, arg,writer);
         toObject(L, -2, arg,writer);
-        
+
         //LocalRef<jobject> k(env_, toObject(L, -1, arg));
         //LocalRef<jobject> v(env_, toObject(L, -2, arg));
         //env_->CallObjectMethod(map, put, k.get(), v.get());
-        
+
         // pop value + copy of key, leaving original key
         lua_pop(L, 2);
         // [table, key]
@@ -83,7 +82,7 @@ static void toMap(lua_State *L, int idx, int arg,mpack_writer_t* writer)
     // [table]
     lua_pop(L, 1);
     mpack_finish_map(writer);
-    
+
     //return map;
 }
 
@@ -120,16 +119,16 @@ static int pack(lua_State* L)
     size_t size;
     mpack_writer_t writer;
     mpack_writer_init_growable(&writer, &data, &size);
-    
+
     toObject(L,1,1,&writer);
     lua_pushlstring(L, writer.buffer, writer.used);
     if (mpack_writer_destroy(&writer) != mpack_ok) {
         fprintf(stderr, "An error occurred encoding the data!\n");
     }
-    
+
     if (data)
         MPACK_FREE(data);
-    
+
     return 1;
 }
 
