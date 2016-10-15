@@ -31,3 +31,5 @@ xcuserdata/
 .directory
 /tags
 
+build.luarocks
+.tags1
