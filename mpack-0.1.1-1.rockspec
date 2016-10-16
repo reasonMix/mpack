@@ -6,8 +6,8 @@ source = {
   tag = "v0.1.1"
 }
 description={
-   summary = 'a star algorithm',
-   detailed = 'a star algorithm',
+   summary = 'mpack for messagepack, the luabing',
+   detailed = 'mpack for messagepack, the luabing',
    homepage = "https://github.com/reasonMix/mpack",
    license = "The MIT License"
 }
